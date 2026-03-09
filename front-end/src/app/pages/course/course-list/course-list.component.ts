@@ -23,12 +23,15 @@ export class CourseListComponent implements OnInit {
   }
 
   async listCourses(): Promise<void> {
-    this.courses = await this.courseService.get<any[]>({
-      url: "http://localhost:3000/getAllCourses",
-      params: {
-
-      }
-    });
+    try {
+      this.courses = await this.courseService.get<any[]>({
+        url: "http://localhost:3000/courses",
+        params: {}
+      });
+    } catch (err) {
+      console.error('Failed to fetch courses', err);
+      this.courses = [];
+    }
   }
 
   async delete(id: number): Promise<void> {

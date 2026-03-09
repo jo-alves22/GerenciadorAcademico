@@ -19,14 +19,16 @@ export class SharedService {
     courses: Array<{ value: string, label: string }> = [];
 
     getUsers(): Observable<any[]> {
+        // clear old cache so subscribers get fresh list
+        this.users = [];
         return this.http
             .get("http://localhost:3000/getAllUsers")
             .pipe(
                 map(x => {
-                    Object.values(x).map((_user) => {
-                        let u = { value: _user.id, label: _user.first_name }
+                    Object.values(x).forEach((_user) => {
+                        let u = { value: _user.id, label: _user.first_name };
                         this.users.push(u);
-                    })
+                    });
                     console.log(x);
                     console.log(this.users);
                     return this.users;
@@ -35,14 +37,16 @@ export class SharedService {
     }
 
     getCourses(): Observable<any[]> {
+        // reset cache so repeated calls don't accumulate duplicates
+        this.courses = [];
         return this.http
-            .get("http://localhost:3000/getAllCourses")
+            .get("http://localhost:3000/courses")
             .pipe(
                 map(x => {
-                    Object.values(x).map((_course) => {
-                        let c = { value: _course.id, label: _course.name }
+                    Object.values(x).forEach((_course) => {
+                        let c = { value: _course.id, label: _course.name };
                         this.courses.push(c);
-                    })
+                    });
                     console.log(x);
                     console.log(this.courses);
                     return this.courses;

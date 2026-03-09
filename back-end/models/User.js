@@ -18,6 +18,9 @@ const User = sequelize.define('users', {
     },
     email:  DataTypes.STRING,
     gender:  DataTypes.STRING,
-}, { underscored: true });
+}, { 
+    tableName: 'users',
+    underscored: true 
+});
 
 export default User;

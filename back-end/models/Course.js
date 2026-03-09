@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../utils/database.js";
 
-const Course = sequelize.define('courses', {
+const Course = sequelize.define('Courses', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -12,6 +12,9 @@ const Course = sequelize.define('courses', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, { underscored: true });
+}, { 
+    tableName: 'Courses',
+    underscored: true 
+});
 
 export default Course;

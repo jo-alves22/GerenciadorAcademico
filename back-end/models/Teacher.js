@@ -12,6 +12,9 @@ const Teacher = sequelize.define('teachers', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, { underscored: true });
+}, { 
+    tableName: 'Teachers',
+    underscored: true 
+});
 
 export default Teacher;

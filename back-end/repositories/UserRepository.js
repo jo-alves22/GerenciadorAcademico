@@ -2,7 +2,8 @@ import User from '../models/User.js';
 
 
 const saveUser = async (user) => {
-    const save = await User.create(userModel);
+    // userModel variable was not defined originally, use the passed-in object
+    const save = await User.create(user);
     return save;
 }
 
@@ -15,7 +16,8 @@ const getAllUsers = async () => {
 }
 
 const getUserById = async (id) => {
-    return await User.findById(id);
+    // Sequelize v6 uses findByPk for primary key lookups
+    return await User.findByPk(id);
 }
 
 const deleteUserById = async (id) => {

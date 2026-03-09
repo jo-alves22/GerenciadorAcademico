@@ -16,7 +16,7 @@ const getAllTeachers = async () => {
 }
 
 const getTeacherById = async (id) => {
-    return await Teacher.findById(id);
+    return await Teacher.findByPk(id);
 }
 
 const deleteTeacherById = async (id) => {

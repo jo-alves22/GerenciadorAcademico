@@ -62,28 +62,34 @@ export class CourseFormComponent {
 
   async onSubmit(): Promise<void> {
     if (this.form.valid) {
-      if (this.model?.id !== undefined && this.model?.id !== null) {
-        this.course = await this.courseService.put<any>({
-          url: `http://localhost:3000/updateCourse/${this.model?.id}`,
-          params: {
+      try {
+        if (this.model?.id !== undefined && this.model?.id !== null) {
+          this.course = await this.courseService.put<any>({
+            url: `http://localhost:3000/updateCourse/${this.model?.id}`,
+            params: {
 
-          },
-          data: this.model
-        });
+            },
+            data: this.model
+          });
 
-      } else {
-        delete this.model?.id;
-        await this.courseService.post<any>({
-          url: `http://localhost:3000/addCourse`,
-          params: {
+        } else {
+          delete this.model?.id;
+          await this.courseService.post<any>({
+            url: `http://localhost:3000/addCourse`,
+            params: {
 
-          },
-          data: this.model
-        })
+            },
+            data: this.model
+          })
+        }
+        await this.router.navigate(['/courses']);
+      } catch (error) {
+        console.error('Error saving course:', error);
+        alert('Erro ao salvar o curso. Verifique o console para detalhes.');
       }
-
+    } else {
+      alert('Formulário inválido. Preencha todos os campos obrigatórios.');
     }
-    await this.router.navigate(['/courses']);
   }
 }
 

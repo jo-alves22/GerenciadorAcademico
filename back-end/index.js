@@ -12,13 +12,14 @@ const { json, urlencoded } = pkg;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
-app.use("/", router);
+// enable CORS before registering routes so that all endpoints are covered
 app.use(cors());
+app.use("/", router);
 
 (async () => {
     try {
         association.associations();
-        await sequelize.sync();
+        await sequelize.sync({ force: true });
         app.listen(3000, function() {
             console.log('Server listening on port 3000');
         });
