@@ -10,7 +10,7 @@ const routes: Routes = [
     component: EvaluationListComponent
   },
   {
-    path: 'addevaluation',
+    path: 'addEvaluation',
     component: EvaluationFormComponent
   }
 ];

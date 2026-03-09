@@ -25,11 +25,16 @@ export class UserListComponent implements OnInit {
   }
 
   async listUsers(): Promise<void>{
-    this.users = await this.userService.get<any[]>({
-      url: "http://localhost:3000/getAllUsers",
-      params: {
-      }
-    });
+    try {
+      this.users = await this.userService.get<any[]>({
+        url: "http://localhost:3000/getAllUsers",
+        params: {}
+      });
+      console.log('Usuários carregados:', this.users);
+    } catch (error) {
+      console.error('Erro ao carregar usuários:', error);
+      this.users = [];
+    }
   }
 
   getLabelGender(value: string): string | undefined {

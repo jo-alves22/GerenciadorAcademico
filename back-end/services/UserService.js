@@ -8,7 +8,7 @@ const getUserById = (id) => {
     return userRepository.getUserById(id);
 }
 
-const getAllUser = () => {
+const getAllUsers = () => {
     return userRepository.getAllUsers();
 }
 
@@ -23,7 +23,7 @@ const updateUserById = (id, userModel) => {
 const service = {
     saveUser,
     getUserById,
-    getAllUser,
+    getAllUsers,
     deleteUserById,
     updateUserById
 }

@@ -12,6 +12,9 @@ const Evaluation = sequelize.define('evaluations', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, { underscored: true });
+}, { 
+    tableName: 'Evaluations',
+    underscored: true 
+});
 
 export default Evaluation;
