@@ -3,6 +3,9 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { UserService } from "../user.service";
+import { HttpClient} from "@angular/common/http";
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { map, Observable } from 'rxjs';
 
 export const GENDERS = [
   { label: 'Homem', value: 'male' },
@@ -15,10 +18,13 @@ export const GENDERS = [
   styleUrls: ['./user-form.component.scss']
 })
 export class UserFormComponent {
+  fileInput: File | null = null;
+  fileSelected?: Blob;
+  url: SafeResourceUrl | undefined;
+
   user: any = {};
   model: any = {};
   form = new FormGroup({});
-  url: string = '';
 
   options: FormlyFormOptions = {};
 
@@ -71,7 +77,9 @@ export class UserFormComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private http: HttpClient,
+    private domSanitizer: DomSanitizer
   ) {
     this.route.queryParams.subscribe(async (params: any) => {
       if (params.id !== undefined && params.id !== null) {
@@ -80,13 +88,25 @@ export class UserFormComponent {
           params: {}
         });
         this.model = this.user;
+        this.getImage('http://localhost:3000/userImage/' + this.model.id).subscribe(x => this.url = x)
       } else {
         this.model = {};
       }
     });
   }
 
-  // image preview/download not implemented on backend yet
+  getImage(url : string): Observable<SafeResourceUrl> {
+    return this.http.get(
+      url, { responseType: 'blob' }
+    ).pipe(
+      map(
+        x => {
+          const urlToBlob = window.URL.createObjectURL(x);
+          return this.domSanitizer.bypassSecurityTrustResourceUrl(urlToBlob);
+        }
+      )
+    );
+  }
 
   onSelectNewFile(event: any): void {
     const file = event.target.files[0];
@@ -99,14 +119,27 @@ export class UserFormComponent {
     }
   }
 
-  async onSubmit(): Promise<void> {
+  async onSubmit(fileInput: FileList | null): Promise<void> {
+    if (!fileInput || fileInput.length === 0) {
+      // Handle no file selected
+      return;
+    }
+
+    let file = fileInput[0];
+    let formData = new FormData();
+    formData.append('first_name', this.model.first_name);
+    formData.append('last_name', this.model.last_name);
+    formData.append('email', this.model.email);
+    formData.append('gender', this.model.gender);
+    formData.append('file', file);
+
     if (this.form.valid) {
       try {
         if (this.model?.id !== undefined && this.model?.id !== null) {
           this.user = await this.userService.put<any>({
             url: `http://localhost:3000/updateUser/${this.model?.id}`,
             params: {},
-            data: this.model
+            data: formData
           });
           console.log('Usuário atualizado com sucesso:', this.user);
         } else {
@@ -114,7 +147,7 @@ export class UserFormComponent {
           const result = await this.userService.post<any>({
             url: `http://localhost:3000/addUser`,
             params: {},
-            data: this.model
+            data: formData
           });
           console.log('Usuário criado com sucesso:', result);
         }

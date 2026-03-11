@@ -6,6 +6,9 @@ npm-debug.log
 dist/
 .angular/
 
+# Images
+back-end/images/
+
 # Environment
 .env
 

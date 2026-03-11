@@ -18,6 +18,7 @@ const User = sequelize.define('users', {
     },
     email:  DataTypes.STRING,
     gender:  DataTypes.STRING,
+    profile_picture:  DataTypes.STRING
 }, { 
     tableName: 'users',
     underscored: true 

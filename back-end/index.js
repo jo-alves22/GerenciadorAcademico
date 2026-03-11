@@ -1,5 +1,4 @@
 import express from 'express';
-import pkg from "body-parser";
 import router from './routes/routes.js';
 
 import sequelize from './utils/database.js';
@@ -8,13 +7,11 @@ import association from './models/Associations.js';
 import cors from 'cors';
 
 const app = express();
-const { json, urlencoded } = pkg;
 
-app.use(json());
-app.use(urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // enable CORS before registering routes so that all endpoints are covered
 app.use(cors());
-app.use("/", router);
 
 (async () => {
     try {
@@ -28,5 +25,6 @@ app.use("/", router);
     }
 })();
 
+app.use("/", router);
 
 
