@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="py-3 text-center">
+    <h3>Cadastro de Disciplinas</h3>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex align-content-end justify-content-end pb-5">
+      <a class="btn btn-primary" [href]="'/disciplinas/form'">CADASTRAR DISCIPLINA</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Código</th>
+            <th scope="col">Carga Horária</th>
+            <th scope="col">Curso</th>
+            <th scope="col">Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let disciplina of disciplinas">
+            <th scope="row">{{disciplina.id}}</th>
+            <td>{{disciplina.nome}}</td>
+            <td>{{disciplina.codigo}}</td>
+            <td>{{disciplina.cargaHoraria}}h</td>
+            <td>{{disciplina.curso?.nome}}</td>
+            <td>
+              <a class="btn btn-outline-primary" [href]="'/disciplinas/form?id='+disciplina.id">
+                <fa-icon [icon]="faPencil"></fa-icon>
+              </a>
+              <button type="button" class="btn btn-outline-danger" (click)="delete(disciplina.id)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="py-3 text-center">
+    <h3>Cadastro de Cursos</h3>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex align-content-end justify-content-end pb-5">
+      <a class="btn btn-primary" [href]="'/cursos/form'">CADASTRAR CURSO</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Código</th>
+            <th scope="col">Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let curso of cursos">
+            <th scope="row">{{curso.id}}</th>
+            <td>{{curso.nome}}</td>
+            <td>{{curso.codigo}}</td>
+            <td>
+              <a class="btn btn-outline-primary" [href]="'/cursos/form?id='+curso.id">
+                <fa-icon [icon]="faPencil"></fa-icon>
+              </a>
+              <button type="button" class="btn btn-outline-danger" (click)="delete(curso.id)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

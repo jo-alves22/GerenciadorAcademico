@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="py-3 text-center">
+    <h3>Turmas</h3>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-end pb-3">
+      <a class="btn btn-primary" [href]="'/turmas/form'">CADASTRAR TURMA</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Disciplina</th>
+            <th>Professor</th>
+            <th>Período</th>
+            <th>Ano</th>
+            <th>Vagas</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let turma of turmas">
+            <td>{{ turma.disciplina?.nome }}</td>
+            <td>{{ turma.professor?.usuario?.nome }}</td>
+            <td>{{ turma.periodo }}</td>
+            <td>{{ turma.ano }}</td>
+            <td>{{ turma.vagas }}</td>
+            <td>
+              <a class="btn btn-sm btn-outline-primary me-1" [href]="'/turmas/form?id=' + turma.id">
+                <fa-icon [icon]="faPencil"></fa-icon>
+              </a>
+              <button class="btn btn-sm btn-outline-danger" (click)="delete(turma.id)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="turmas.length === 0">
+            <td colspan="6" class="text-center text-muted">Nenhuma turma cadastrada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

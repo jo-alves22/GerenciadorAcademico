@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="py-3 text-center">
+    <h3>Professores</h3>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-end pb-3">
+      <a class="btn btn-primary" [href]="'/professores/form'">CADASTRAR PROFESSOR</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Registro</th>
+            <th>Departamento</th>
+            <th>Titulação</th>
+            <th>Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let professor of professores">
+            <td>{{ professor.usuario?.nome }}</td>
+            <td>{{ professor.usuario?.email }}</td>
+            <td>{{ professor.registro }}</td>
+            <td>{{ professor.departamento || '-' }}</td>
+            <td>{{ professor.titulacao || '-' }}</td>
+            <td>
+              <a class="btn btn-sm btn-outline-primary me-1" [href]="'/professores/form?id=' + professor.id">
+                <fa-icon [icon]="faPencil"></fa-icon>
+              </a>
+              <button class="btn btn-sm btn-outline-danger" (click)="delete(professor.id)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="professores.length === 0">
+            <td colspan="6" class="text-center text-muted">Nenhum professor cadastrado.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

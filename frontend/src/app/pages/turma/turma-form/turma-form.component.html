@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="py-3 text-center">
+    <h3>{{ model?.id ? 'Editar Turma' : 'Nova Turma' }}</h3>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
+    <div class="d-flex gap-2 mt-3">
+      <button type="submit" class="btn btn-primary">Salvar</button>
+      <a class="btn btn-secondary" href="/turmas">Cancelar</a>
+    </div>
+  </form>
+</div>
