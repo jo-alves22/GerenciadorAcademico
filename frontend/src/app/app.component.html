@@ -1,58 +1,67 @@
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">Gerenciador Acadêmico</a>
-  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <input class="form-control form-control-dark w-100" type="text" placeholder="" aria-label="Search">
-  <div class="navbar-nav">
-    <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#"></a>
+<ng-container *ngIf="mostrarLayout">
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" routerLink="/">Gerenciador Acadêmico</a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button"
+      data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+      aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-nav ms-auto">
+      <div class="nav-item d-flex align-items-center px-3 gap-3">
+        <span class="text-white small">
+          {{ usuario?.nome }}
+          <span class="badge bg-secondary ms-1">{{ usuario?.tipo }}</span>
+        </span>
+        <button class="btn btn-sm btn-outline-light" (click)="authService.logout()">Sair</button>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
+</ng-container>
 
 <div class="container-fluid">
   <div class="row">
-    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <nav *ngIf="mostrarLayout" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="position-sticky pt-3">
 
-        <p class="px-3 text-muted small text-uppercase fw-bold mb-1">Cadastros</p>
-        <ul class="nav flex-column mb-3">
-          <li class="nav-item">
-            <a class="nav-link" href="/">Usuários</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cursos">Cursos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/disciplinas">Disciplinas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/professores">Professores</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/alunos">Alunos</a>
-          </li>
-        </ul>
+        <ng-container *ngIf="authService.isAdmin()">
+          <p class="px-3 text-muted small text-uppercase fw-bold mb-1">Cadastros</p>
+          <ul class="nav flex-column mb-3">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Usuários</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/cursos" routerLinkActive="active">Cursos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/disciplinas" routerLinkActive="active">Disciplinas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/professores" routerLinkActive="active">Professores</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/alunos" routerLinkActive="active">Alunos</a>
+            </li>
+          </ul>
+        </ng-container>
 
         <p class="px-3 text-muted small text-uppercase fw-bold mb-1">Acadêmico</p>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="/turmas">Turmas</a>
+          <li class="nav-item" *ngIf="authService.isAdmin() || authService.isProfessor()">
+            <a class="nav-link" routerLink="/turmas" routerLinkActive="active">Turmas</a>
+          </li>
+          <li class="nav-item" *ngIf="authService.isAdmin() || authService.isAluno()">
+            <a class="nav-link" routerLink="/matriculas" routerLinkActive="active">Matrículas</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/matriculas">Matrículas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/notas">Notas</a>
+            <a class="nav-link" routerLink="/notas" routerLinkActive="active">Notas</a>
           </li>
         </ul>
 
       </div>
     </nav>
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+    <main [ngClass]="mostrarLayout ? 'col-md-9 ms-sm-auto col-lg-10 px-md-4' : 'col-12'">
       <router-outlet></router-outlet>
     </main>
   </div>
 </div>
-

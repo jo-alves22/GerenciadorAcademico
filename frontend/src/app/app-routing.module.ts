@@ -1,43 +1,57 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
     path: '',
-    loadChildren: () => import('./pages/user/user.module').then((module) => module.UserModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/user/user.module').then((m) => m.UserModule),
   },
   {
     path: 'cursos',
-    loadChildren: () => import('./pages/curso/curso.module').then((module) => module.CursoModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/curso/curso.module').then((m) => m.CursoModule),
   },
   {
     path: 'disciplinas',
-    loadChildren: () => import('./pages/disciplina/disciplina.module').then((module) => module.DisciplinaModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/disciplina/disciplina.module').then((m) => m.DisciplinaModule),
   },
   {
     path: 'alunos',
-    loadChildren: () => import('./pages/aluno/aluno.module').then((module) => module.AlunoModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/aluno/aluno.module').then((m) => m.AlunoModule),
   },
   {
     path: 'professores',
-    loadChildren: () => import('./pages/professor/professor.module').then((module) => module.ProfessorModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/professor/professor.module').then((m) => m.ProfessorModule),
   },
   {
     path: 'turmas',
-    loadChildren: () => import('./pages/turma/turma.module').then((module) => module.TurmaModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/turma/turma.module').then((m) => m.TurmaModule),
   },
   {
     path: 'matriculas',
-    loadChildren: () => import('./pages/matricula/matricula.module').then((module) => module.MatriculaModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/matricula/matricula.module').then((m) => m.MatriculaModule),
   },
   {
     path: 'notas',
-    loadChildren: () => import('./pages/nota/nota.module').then((module) => module.NotaModule),
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/nota/nota.module').then((m) => m.NotaModule),
   },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
