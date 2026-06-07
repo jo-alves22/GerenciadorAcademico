@@ -2,7 +2,7 @@
   <div class="py-3 text-center">
     <h3>Notas</h3>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="!authService.isAluno()">
     <div class="col-12 d-flex justify-content-end pb-3">
       <a class="btn btn-primary" [href]="'/notas/form'">LANÇAR NOTA</a>
     </div>
@@ -20,7 +20,7 @@
             <th class="text-center">Nota 3</th>
             <th class="text-center">Média Final</th>
             <th class="text-center">Frequência</th>
-            <th>Ação</th>
+            <th *ngIf="!authService.isAluno()">Ação</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
               </span>
             </td>
             <td class="text-center">{{ nota.frequencia != null ? (nota.frequencia + '%') : '-' }}</td>
-            <td>
+            <td *ngIf="!authService.isAluno()">
               <a class="btn btn-sm btn-outline-primary me-1" [href]="'/notas/form?id=' + nota.id">
                 <fa-icon [icon]="faPencil"></fa-icon>
               </a>

@@ -42,6 +42,11 @@ public class NotaServiceImpl implements NotaService {
     }
 
     @Override
+    public List<Nota> getNotasByAluno(String alunoId) {
+        return notaRepository.findByMatricula_AlunoId(alunoId);
+    }
+
+    @Override
     public Nota updateNota(String id, Nota nota) {
         Nota existing = getNotaById(id);
         existing.setNota1(nota.getNota1());

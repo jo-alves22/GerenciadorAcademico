@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../../auth/auth.service';
 import { UserService } from '../../user/user.service';
 
 @Component({
@@ -13,17 +14,29 @@ export class AlunoListComponent implements OnInit {
 
   alunos: any[] = [];
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    readonly authService: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.listAlunos();
   }
 
   async listAlunos(): Promise<void> {
-    this.alunos = await this.userService.get<any[]>({
-      url: 'http://localhost:8080/api/alunos',
-      params: {}
-    });
+    const alunoId = this.authService.getUsuario()?.alunoId;
+    if (alunoId) {
+      const aluno = await this.userService.get<any>({
+        url: `http://localhost:8080/api/alunos/${alunoId}`,
+        params: {}
+      });
+      this.alunos = [aluno];
+    } else {
+      this.alunos = await this.userService.get<any[]>({
+        url: 'http://localhost:8080/api/alunos',
+        params: {}
+      });
+    }
   }
 
   async delete(id: number): Promise<void> {

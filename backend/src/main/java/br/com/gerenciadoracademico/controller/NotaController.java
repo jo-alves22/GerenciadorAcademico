@@ -48,6 +48,11 @@ public class NotaController {
         return ResponseEntity.ok(notaService.getAllNotas());
     }
 
+    @GetMapping("/aluno/{alunoId}")
+    public ResponseEntity<List<Nota>> getNotasByAluno(@PathVariable String alunoId) {
+        return ResponseEntity.ok(notaService.getNotasByAluno(alunoId));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Nota> updateNota(@PathVariable String id, @RequestBody Nota nota) {
         try {

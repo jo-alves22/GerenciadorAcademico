@@ -2,7 +2,7 @@
   <div class="py-3 text-center">
     <h3>Cadastro de Alunos</h3>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="!authService.isAluno()">
     <div class="col-12 d-flex align-content-end justify-content-end pb-5">
       <a class="btn btn-primary" [href]="'/alunos/form'">CADASTRAR ALUNO</a>
     </div>
@@ -18,7 +18,7 @@
             <th scope="col">CPF</th>
             <th scope="col">Email</th>
             <th scope="col">Curso</th>
-            <th scope="col">Ação</th>
+            <th *ngIf="!authService.isAluno()" scope="col">Ação</th>
           </tr>
         </thead>
         <tbody>
@@ -29,7 +29,7 @@
             <td>{{aluno.cpf}}</td>
             <td>{{aluno.email}}</td>
             <td>{{aluno.curso?.nome}}</td>
-            <td>
+            <td *ngIf="!authService.isAluno()">
               <a class="btn btn-outline-primary" [href]="'/alunos/form?id='+aluno.id">
                 <fa-icon [icon]="faPencil"></fa-icon>
               </a>

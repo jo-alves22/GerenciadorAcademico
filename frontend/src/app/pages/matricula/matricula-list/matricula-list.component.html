@@ -2,7 +2,7 @@
   <div class="py-3 text-center">
     <h3>Matrículas</h3>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="!authService.isAluno()">
     <div class="col-12 d-flex justify-content-end pb-3">
       <a class="btn btn-primary" [href]="'/matriculas/form'">NOVA MATRÍCULA</a>
     </div>
@@ -18,7 +18,7 @@
             <th>Período</th>
             <th>Data Matrícula</th>
             <th>Situação</th>
-            <th>Ação</th>
+            <th *ngIf="!authService.isAluno()">Ação</th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
             <td>
               <span class="badge" [ngClass]="situacaoBadge(m.situacao)">{{ m.situacao }}</span>
             </td>
-            <td>
+            <td *ngIf="!authService.isAluno()">
               <a class="btn btn-sm btn-outline-primary me-1" [href]="'/matriculas/form?id=' + m.id">
                 <fa-icon [icon]="faPencil"></fa-icon>
               </a>

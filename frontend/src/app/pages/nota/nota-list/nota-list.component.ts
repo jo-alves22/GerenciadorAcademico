@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../../../auth/auth.service';
 import { UserService } from '../../user/user.service';
 
 @Component({
@@ -13,17 +14,21 @@ export class NotaListComponent implements OnInit {
 
   notas: any[] = [];
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    readonly authService: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.listNotas();
   }
 
   async listNotas(): Promise<void> {
-    this.notas = await this.userService.get<any[]>({
-      url: 'http://localhost:8080/api/notas',
-      params: {}
-    });
+    const alunoId = this.authService.getUsuario()?.alunoId;
+    const url = alunoId
+      ? `http://localhost:8080/api/notas/aluno/${alunoId}`
+      : 'http://localhost:8080/api/notas';
+    this.notas = await this.userService.get<any[]>({ url, params: {} });
   }
 
   situacaoMedia(media: number): string {

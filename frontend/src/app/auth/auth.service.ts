@@ -9,6 +9,7 @@ export interface UsuarioLogado {
   nome: string;
   email: string;
   tipo: TipoUsuario;
+  alunoId?: string;
 }
 
 const STORAGE_KEY = 'usuario_logado';
@@ -16,7 +17,7 @@ const API_URL = 'http://localhost:8080/api/auth/login';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   async login(email: string, senha: string): Promise<void> {
     const response = await axios.post<UsuarioLogado>(API_URL, { email, senha });
