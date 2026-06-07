@@ -1,67 +1,128 @@
-<ng-container *ngIf="mostrarLayout">
-  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" routerLink="/">Gerenciador Acadêmico</a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button"
-      data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
-      aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="navbar-nav ms-auto">
-      <div class="nav-item d-flex align-items-center px-3 gap-3">
-        <span class="text-white small">
-          {{ usuario?.nome }}
-          <span class="badge bg-secondary ms-1">{{ usuario?.tipo }}</span>
-        </span>
-        <button class="btn btn-sm btn-outline-light" (click)="authService.logout()">Sair</button>
-      </div>
+<!-- Navbar -->
+<header *ngIf="mostrarLayout" class="app-navbar">
+  <a class="brand" routerLink="/">
+    <div class="brand-icon">GA</div>
+    <span class="brand-name">Gerenciador<br>Acadêmico</span>
+  </a>
+
+  <div class="navbar-spacer"></div>
+
+  <div class="navbar-user">
+    <div class="user-info">
+      <span class="user-name">{{ usuario?.nome }}</span>
+      <span class="user-role">{{ usuario?.tipo }}</span>
     </div>
-  </header>
-</ng-container>
-
-<div class="container-fluid">
-  <div class="row">
-    <nav *ngIf="mostrarLayout" id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-      <div class="position-sticky pt-3">
-
-        <ng-container *ngIf="authService.isAdmin()">
-          <p class="px-3 text-muted small text-uppercase fw-bold mb-1">Cadastros</p>
-          <ul class="nav flex-column mb-3">
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Usuários</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/cursos" routerLinkActive="active">Cursos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/disciplinas" routerLinkActive="active">Disciplinas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/professores" routerLinkActive="active">Professores</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="/alunos" routerLinkActive="active">Alunos</a>
-            </li>
-          </ul>
-        </ng-container>
-
-        <p class="px-3 text-muted small text-uppercase fw-bold mb-1">Acadêmico</p>
-        <ul class="nav flex-column">
-          <li class="nav-item" *ngIf="authService.isAdmin() || authService.isProfessor()">
-            <a class="nav-link" routerLink="/turmas" routerLinkActive="active">Turmas</a>
-          </li>
-          <li class="nav-item" *ngIf="authService.isAdmin() || authService.isAluno()">
-            <a class="nav-link" routerLink="/matriculas" routerLinkActive="active">Matrículas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/notas" routerLinkActive="active">Notas</a>
-          </li>
-        </ul>
-
-      </div>
-    </nav>
-
-    <main [ngClass]="mostrarLayout ? 'col-md-9 ms-sm-auto col-lg-10 px-md-4' : 'col-12'">
-      <router-outlet></router-outlet>
-    </main>
+    <div class="user-avatar">{{ usuario?.nome | slice:0:1 }}</div>
+    <button class="btn-logout" (click)="authService.logout()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      Sair
+    </button>
   </div>
-</div>
+</header>
+
+<!-- Sidebar -->
+<nav *ngIf="mostrarLayout" class="app-sidebar">
+
+  <ng-container *ngIf="authService.isAdmin()">
+    <p class="nav-section-label">Cadastros</p>
+    <ul class="nav flex-column mb-1" style="list-style:none;padding:0;margin:0">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          Usuários
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/cursos" routerLinkActive="active">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          Cursos
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/disciplinas" routerLinkActive="active">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          Disciplinas
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/professores" routerLinkActive="active">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/>
+          </svg>
+          Professores
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/alunos" routerLinkActive="active">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+          </svg>
+          Alunos
+        </a>
+      </li>
+    </ul>
+    <div class="nav-divider"></div>
+  </ng-container>
+
+  <p class="nav-section-label">Acadêmico</p>
+  <ul class="nav flex-column" style="list-style:none;padding:0;margin:0">
+    <li class="nav-item" *ngIf="authService.isAdmin() || authService.isProfessor()">
+      <a class="nav-link" routerLink="/turmas" routerLinkActive="active">
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Turmas
+      </a>
+    </li>
+    <li class="nav-item" *ngIf="authService.isAdmin() || authService.isAluno()">
+      <a class="nav-link" routerLink="/matriculas" routerLinkActive="active">
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        Matrículas
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/notas" routerLinkActive="active">
+        <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        Notas
+      </a>
+    </li>
+  </ul>
+
+</nav>
+
+<!-- Conteúdo principal — único router-outlet -->
+<main [ngClass]="mostrarLayout ? 'app-content' : ''">
+  <router-outlet></router-outlet>
+</main>
